@@ -6,8 +6,8 @@ interface ParcelService {
 
     def saveParcel(Parcel parcel)
     def List<Parcel> getAllParcels()
-    def getParcel(long id)
-    def deleteParcel(long id)
+    def getParcel(Long id)
+    def deleteParcel(Long id)
     def deleteAllParcels()
-    def changeStatus(long id, int status)
+    def changeStatus(Long id, Integer status)
 }
