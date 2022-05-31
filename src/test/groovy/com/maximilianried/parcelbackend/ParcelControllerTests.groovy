@@ -6,8 +6,6 @@ import com.maximilianried.parcelbackend.model.ParcelStatus
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import spock.lang.Specification
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -18,25 +16,20 @@ class ParcelControllerTests extends Specification {
 
 	TestRestTemplate restTemplate = new TestRestTemplate()
 
-	def "save and get parcels"() {
+	def "save parcels"() {
 
-		// Create the parcel and save it
+		// Create the parcel
 		Parcel parcel = new Parcel()
 		parcel.setSenderName(senderName)
 		parcel.setSenderAddress(senderAddress)
 		parcel.setReceiverName(receiverName)
 		parcel.setReceiverAddress(receiverAddress)
+
+		// Save the created parcel
 		parcelController.saveParcel(parcel)
 
-		// Get the parcel and check the response
 		expect:
-		ResponseEntity<Parcel> responseEntity = restTemplate.getForEntity("http://localhost:8080/parcel/get/" + index, Parcel)
-		responseEntity.statusCode == HttpStatus.OK
-		responseEntity.getBody().senderName == senderName
-		responseEntity.getBody().senderAddress == senderAddress
-		responseEntity.getBody().receiverName == receiverName
-		responseEntity.getBody().receiverAddress == receiverAddress
-		responseEntity.getBody().status == statusCode
+		parcelController.getParcel(index)
 
 		// Data table with the values for the parcels
 		where:
@@ -47,4 +40,59 @@ class ParcelControllerTests extends Specification {
 		4 		| "Peter" 		| "Anystreet" 		| "Track" 		| "Verteilerstraße" | ParcelStatus.REGISTERED
 	}
 
+	def "get parcel"() {
+
+		// Get parcel with ID 1
+		Parcel parcel = parcelController.getParcel(1)
+
+		expect:
+		parcel.senderName == "Max"
+		parcel.senderAddress == "Musterstraße"
+		parcel.receiverName == "Paul"
+		parcel.receiverAddress == "Grimmstraße"
+		parcel.status == ParcelStatus.REGISTERED
+	}
+
+	def "get all parcels"() {
+
+		// Get all parcels as a list
+		List<Parcel> list = parcelController.getAllParcels()
+
+		expect:
+		list.size() == 4
+	}
+
+	def "update parcel status"() {
+
+		// Change status for parcel with ID 1 to status-code 2: SEND
+		parcelController.changeStatus(1,2)
+
+		expect:
+		Parcel parcel = parcelController.getParcel(1)
+		parcel.status == ParcelStatus.SEND
+	}
+
+	def "delete parcel"() {
+
+		// Delete parcel with ID 1
+		parcelController.deleteParcel(1)
+
+		// Get List of all parcels
+		List<Parcel> list = parcelController.getAllParcels()
+
+		expect:
+		list.size() == 3
+	}
+
+	def "delete all parcels"() {
+
+		// Delete all parcels from DB
+		parcelController.deleteAllParcels()
+
+		// Get List of all parcels
+		List<Parcel> list = parcelController.getAllParcels()
+
+		expect:
+		list.size() == 0
+	}
 }
