@@ -2,6 +2,7 @@ package com.maximilianried.parcelbackend
 
 import com.maximilianried.parcelbackend.controller.ParcelController
 import com.maximilianried.parcelbackend.model.Parcel
+import com.maximilianried.parcelbackend.model.ParcelStatus
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -10,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import spock.lang.Specification
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class ParcelBackendApplicationTests extends Specification {
+class ParcelControllerTests extends Specification {
 
 	@Autowired
 	private ParcelController parcelController
@@ -40,10 +41,10 @@ class ParcelBackendApplicationTests extends Specification {
 		// Data table with the values for the parcels
 		where:
 		index 	| senderName 	| senderAddress 	| receiverName 	| receiverAddress 	| statusCode
-		1 		| "Max" 		| "Musterstraße" 	| "Paul" 		| "Grimmstraße" 	| 1
-		2 		| "Jake" 		| "Westminster" 	| "Tom" 		| "Bonnstraße" 		| 1
-		3 		| "Tim" 		| "Tomstreet" 		| "Tik" 		| "Koelnstraße" 	| 1
-		4 		| "Peter" 		| "Anystreet" 		| "Track" 		| "Verteilerstraße" | 1
+		1 		| "Max" 		| "Musterstraße" 	| "Paul" 		| "Grimmstraße" 	| ParcelStatus.REGISTERED
+		2 		| "Jake" 		| "Westminster" 	| "Tom" 		| "Bonnstraße" 		| ParcelStatus.REGISTERED
+		3 		| "Tim" 		| "Tomstreet" 		| "Tik" 		| "Koelnstraße" 	| ParcelStatus.REGISTERED
+		4 		| "Peter" 		| "Anystreet" 		| "Track" 		| "Verteilerstraße" | ParcelStatus.REGISTERED
 	}
 
 }
