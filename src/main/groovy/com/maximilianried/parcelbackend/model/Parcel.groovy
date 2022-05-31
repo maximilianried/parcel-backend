@@ -18,8 +18,7 @@ class Parcel {
     private String receiverName
     private String receiverAddress
 
-    // Status-codes for the parcel
-    // 1 = REGISTERED, 2 = SEND, 3 = DELIVERED
+    // Status-codes: 1 = REGISTERED, 2 = SEND, 3 = DELIVERED
     private ParcelStatus status
 
     // Current date given by the controller when saved
