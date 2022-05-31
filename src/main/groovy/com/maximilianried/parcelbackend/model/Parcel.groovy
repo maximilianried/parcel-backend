@@ -10,7 +10,7 @@ class Parcel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id
+    private Long id
 
     // Addresses for the sender and receiver
     private String senderName
@@ -19,17 +19,17 @@ class Parcel {
     private String receiverAddress
 
     // Status-codes for the parcel
-    // 1 = registered, 2 = send, 3 = received
-    private int status
+    // 1 = REGISTERED, 2 = SEND, 3 = DELIVERED
+    private ParcelStatus status
 
     // Current date given by the controller when saved
     private Date date
 
-    long getId() {
+    Long getId() {
         return id
     }
 
-    void setId(long id) {
+    void setId(Long id) {
         this.id = id
     }
 
@@ -65,11 +65,11 @@ class Parcel {
         this.receiverAddress = receiverAddress
     }
 
-    int getStatus() {
+    ParcelStatus getStatus() {
         return status
     }
 
-    void setStatus(int status) {
+    void setStatus(ParcelStatus status) {
         this.status = status
     }
 
