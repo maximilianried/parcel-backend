@@ -1,7 +1,6 @@
 package com.maximilianried.parcelbackend.controller
 
 import com.maximilianried.parcelbackend.model.Parcel
-import com.maximilianried.parcelbackend.model.ParcelStatus
 import com.maximilianried.parcelbackend.service.ParcelService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -46,6 +45,7 @@ class ParcelController {
         return "Parcel with id ${id} is deleted"
     }
 
+    // Delete all existing parcels
     @DeleteMapping("/deleteAll")
     def deleteAllParcels() {
         parcelService.deleteAllParcels()
