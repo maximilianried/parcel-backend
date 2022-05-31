@@ -1,6 +1,7 @@
 package com.maximilianried.parcelbackend.service
 
 import com.maximilianried.parcelbackend.model.Parcel
+import com.maximilianried.parcelbackend.model.ParcelStatus
 import com.maximilianried.parcelbackend.repository.ParcelRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -14,6 +15,8 @@ class ParcelServiceImpl implements ParcelService{
     // Uses the save method to save the given parcel
     @Override
     def saveParcel(Parcel parcel) {
+        parcel.date = new Date()
+        parcel.status = ParcelStatus.REGISTERED
         return parcelRepository.save(parcel)
     }
 
@@ -25,7 +28,7 @@ class ParcelServiceImpl implements ParcelService{
 
     // Returns the parcel or a Exception if id is not found
     @Override
-    def getParcel(long id) {
+    def getParcel(Long id) {
         // Create a optional of type parcel
         Optional<Parcel> optional = parcelRepository.findById(id)
 
@@ -41,7 +44,7 @@ class ParcelServiceImpl implements ParcelService{
 
     // Uses the deleteById method to delete the parcel by the given id
     @Override
-    def deleteParcel(long id) {
+    def deleteParcel(Long id) {
         return parcelRepository.deleteById(id)
     }
 
@@ -53,7 +56,7 @@ class ParcelServiceImpl implements ParcelService{
 
     // Changes the status by the given id to the given status-code
     @Override
-    def changeStatus(long id, int status) {
+    def changeStatus(Long id, Integer status) {
         // Create a optional of type parcel
         Optional<Parcel> optional = parcelRepository.findById(id)
 
@@ -63,7 +66,19 @@ class ParcelServiceImpl implements ParcelService{
             Parcel parcel = optional.get()
 
             // Change the status-code to the given status-code
-            parcel.status = status
+            switch (status) {
+                case 1:
+                    parcel.status = ParcelStatus.REGISTERED
+                    break
+                case 2:
+                    parcel.status = ParcelStatus.SEND
+                    break
+                case 3:
+                    parcel.status = ParcelStatus.DELIVERED
+                    break
+                default:
+                    throw new IllegalArgumentException("The status-code ${status} is not a valid code")
+            }
 
             // Save the changed parcel to the database
             parcelRepository.save(parcel)
