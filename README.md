@@ -1,4 +1,4 @@
-# Parcel Backend
+# Parcel delivery system
 
 ## Description
 Spring parcel system backend using JPA, Spock, Spring Web and Groovy. <p>
