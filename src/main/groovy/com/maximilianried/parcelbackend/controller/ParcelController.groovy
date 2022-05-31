@@ -1,6 +1,7 @@
 package com.maximilianried.parcelbackend.controller
 
 import com.maximilianried.parcelbackend.model.Parcel
+import com.maximilianried.parcelbackend.model.ParcelStatus
 import com.maximilianried.parcelbackend.service.ParcelService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -22,8 +23,6 @@ class ParcelController {
     // Append date and status-code then save parcel
     @PostMapping("/save")
     def saveParcel(@RequestBody Parcel parcel) {
-        parcel.date = new Date()
-        parcel.status = 1
         parcelService.saveParcel(parcel)
         return "Parcel is saved"
     }
@@ -36,13 +35,13 @@ class ParcelController {
 
     // Get parcel by id
     @GetMapping("/get/{id}")
-    def getParcel(@PathVariable (value = "id") long id) {
+    def getParcel(@PathVariable (value = "id") Long id) {
         return parcelService.getParcel(id)
     }
 
     // Delete parcel by id
     @DeleteMapping("/delete/{id}")
-    def deleteParcel(@PathVariable (value = "id") long id) {
+    def deleteParcel(@PathVariable (value = "id") Long id) {
         parcelService.deleteParcel(id)
         return "Parcel with id ${id} is deleted"
     }
@@ -55,7 +54,7 @@ class ParcelController {
 
     // Update parcel status by id and status-code
     @PutMapping("/update/status/{id}/{status}")
-    def changeStatus(@PathVariable (value = "id") long id, @PathVariable (value = "status") int status) {
+    def changeStatus(@PathVariable (value = "id") Long id, @PathVariable (value = "status") Integer status) {
         parcelService.changeStatus(id, status)
         return "Parcel with id ${id} changed status to ${status}"
     }
